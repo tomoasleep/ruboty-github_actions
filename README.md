@@ -34,6 +34,10 @@ ruboty github actions set credential alice ghp_xxxxxxxxxxxx
 
 The credential is stored in the ruboty brain.
 
+### Fallback credential
+
+If the user has no credential saved by this plugin, the GitHub access token saved by [ruboty-qiita-github](https://github.com/increments/ruboty-qiita-github) (stored under the `github` key in the brain) is used as a fallback. A credential saved via `set credential` always takes precedence.
+
 ### Dispatch a workflow
 
 Trigger a workflow run:

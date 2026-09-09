@@ -26,6 +26,29 @@ RSpec.describe Ruboty::GithubActions::Credential do
       end
     end
 
+    context "when only ruboty-qiita-github's token exists" do
+      before do
+        brain.data["github"] = { "alice" => "fallback_token" }
+      end
+
+      it "returns the fallback credential" do
+        credential = described_class.find(brain, "alice")
+        expect(credential).to eq(type: "pat", token: "fallback_token")
+      end
+    end
+
+    context "when both exist" do
+      before do
+        brain.data["github_actions:credentials:alice"] = { type: "pat", token: "token123" }
+        brain.data["github"] = { "alice" => "fallback_token" }
+      end
+
+      it "prefers the credential saved by this plugin" do
+        credential = described_class.find(brain, "alice")
+        expect(credential).to eq(type: "pat", token: "token123")
+      end
+    end
+
     context "when not found" do
       it "returns nil" do
         expect(described_class.find(brain, "bob")).to be_nil
