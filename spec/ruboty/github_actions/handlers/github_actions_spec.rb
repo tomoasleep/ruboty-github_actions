@@ -7,9 +7,9 @@ RSpec.describe Ruboty::GithubActions::Handlers::GithubActions do
 
   describe ".actions" do
     it "defines a set credential action" do
-      action = described_class.actions.find { |a| a.name == "set credential" }
+      action = described_class.actions.find { |a| a.name == "set_credential" }
       expect(action).to be_a(Ruboty::Action)
-      expect(action.name).to eq("set credential")
+      expect(action.name).to eq("set_credential")
     end
 
     it "defines a run workflow action" do

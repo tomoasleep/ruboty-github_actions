@@ -5,6 +5,19 @@ require "net/http"
 require "timeout"
 
 RSpec.describe "GitHub Actions e2e (emulate.dev)", :e2e do
+  class RecordingAdapter < Ruboty::Adapters::Base
+    attr_reader :messages
+
+    def initialize(*args)
+      super
+      @messages = []
+    end
+
+    def say(message)
+      @messages << message[:body]
+    end
+  end
+
   let(:base_url) { "http://localhost:4010" }
 
   before(:all) do
@@ -39,27 +52,34 @@ RSpec.describe "GitHub Actions e2e (emulate.dev)", :e2e do
     @original_api_url ? ENV["RUBOTY_GITHUB_ACTIONS_API_URL"] = @original_api_url : ENV.delete("RUBOTY_GITHUB_ACTIONS_API_URL")
   end
 
-  let(:client) do
-    Ruboty::GithubActions::Actions::Client.build(type: "pat", token: "test_token_admin")
+  let(:robot) { Ruboty::Robot.new }
+
+  def receive(body, from_name: "alice")
+    robot.receive(body: body, from_name: from_name)
   end
 
-  it "connects to the emulator and authenticates" do
-    repo = client.repository("admin/hello-world")
-    expect(repo.full_name).to eq("admin/hello-world")
+  def replies
+    robot.send(:adapter).messages
   end
 
-  it "dispatches a workflow and receives 204" do
-    result = client.workflow_dispatch("admin/hello-world", "ci.yml", "main", inputs: { env: "production" })
-    expect(result).to be(true)
-  end
+  it "sets a credential and dispatches a workflow through the ruboty layer" do
+    receive("ruboty github actions set credential alice test_token_admin")
+    expect(replies).to include(/Credential saved for alice/)
 
-  it "records the workflow run" do
-    expect(client.workflow_dispatch("admin/hello-world", "ci.yml", "main", inputs: {})).to be(true)
+    receive("ruboty github actions run admin/hello-world ci.yml main env=production")
+    expect(replies).to include(/Workflow ci.yml dispatched for admin\/hello-world/)
+
+    client = Ruboty::GithubActions::Actions::Client.build(type: "pat", token: "test_token_admin")
     runs = client.workflow_runs("admin/hello-world", "ci.yml")
     expect(runs.total_count).to be >= 1
     run = runs.workflow_runs.first
     expect(run.event).to eq("workflow_dispatch")
     expect(run.head_branch).to eq("main")
     expect(run.status).to eq("queued")
+  end
+
+  it "replies with an error when no credential is set" do
+    receive("ruboty github actions run admin/hello-world ci.yml main", from_name: "bob")
+    expect(replies).to include(/No credential found for bob/)
   end
 end

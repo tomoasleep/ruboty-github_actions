@@ -6,7 +6,7 @@ module Ruboty
       class GithubActions < Ruboty::Handlers::Base
         on(
           /github actions set credential (?<user>\S+) (?<token>\S+)\z/,
-          name: "set credential",
+          name: "set_credential",
           description: "Set a GitHub PAT credential for a user"
         )
 
