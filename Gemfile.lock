@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ruboty-github-actions (0.1.0)
+    ruboty-github_actions (0.1.0)
       jwt (>= 2.0)
       octokit (>= 6.0)
       ruboty (>= 1.3)
@@ -94,7 +94,7 @@ PLATFORMS
 DEPENDENCIES
   rake
   rspec (~> 3.0)
-  ruboty-github-actions!
+  ruboty-github_actions!
 
 CHECKSUMS
   activesupport (8.1.3.1) sha256=85458765f25ea48b9019c46b6bb3fa5683197bf4280d9f06710a6e8d7a831376
@@ -127,7 +127,7 @@ CHECKSUMS
   rspec-mocks (3.13.8) sha256=086ad3d3d17533f4237643de0b5c42f04b66348c28bf6b9c2d3f4a3b01af1d47
   rspec-support (3.13.7) sha256=0640e5570872aafefd79867901deeeeb40b0c9875a36b983d85f54fb7381c47c
   ruboty (1.4.1) sha256=d4f4d32c6110d753d1f30d04c9326e8a48e82a0d264321efcf8ac9192f14fcf7
-  ruboty-github-actions (0.1.0)
+  ruboty-github_actions (0.1.0)
   sawyer (0.9.3) sha256=0d0f19298408047037638639fe62f4794483fb04320269169bd41af2bdcf5e41
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   slop (4.10.1) sha256=844322b5ffcf17ed4815fdb173b04a20dd82b4fd93e3744c88c8fafea696d9c7

@@ -1,4 +1,4 @@
-# ruboty-github-actions
+# ruboty-github_actions
 
 A ruboty plugin to trigger GitHub Actions workflows via chat.
 
@@ -7,7 +7,7 @@ A ruboty plugin to trigger GitHub Actions workflows via chat.
 Add this line to your ruboty project's Gemfile:
 
 ```ruby
-gem "ruboty-github-actions"
+gem "ruboty-github_actions"
 ```
 
 And then execute:

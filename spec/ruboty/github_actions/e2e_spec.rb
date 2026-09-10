@@ -29,8 +29,8 @@ RSpec.describe "GitHub Actions e2e (emulate.dev)", :e2e do
     @pid = Process.spawn(
       "node", "emulator.mjs",
       chdir: emulator_dir,
-      out: "/tmp/ruboty-github-actions-emulate.log",
-      err: "/tmp/ruboty-github-actions-emulate.log"
+      out: "/tmp/ruboty-github_actions-emulate.log",
+      err: "/tmp/ruboty-github_actions-emulate.log"
     )
     Timeout.timeout(30) do
       loop do
